@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.application.Application;
-
+import javafx.stage.Window;
 
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Controller {
     @FXML
     private Button confirmButton;
 
-    public static Server server;
+
 
     Stage window;
 
@@ -36,20 +36,18 @@ public class Controller {
     }
 
     public void OnButtonClicked() throws IOException {
-        server = new Server();
-        var nick = textField.getText();
-        server.Connect();
-        server.SendMessage(nick);
         Parent root = FXMLLoader.load(App.class.getResource("Chat.fxml"));
-
         window = (Stage) confirmButton.getScene().getWindow();
         window.setScene(new Scene(root));
-        window.setTitle("Chatting as: " + nick);
         window.setResizable(false);
 
+        var s = new Server(textField.getText());
+
+        Data d = Data.GetInstance();
+        d.SetNick(textField.getText());
+        d.SetServer(s);
+
+
     }
-
-
-
 
 }

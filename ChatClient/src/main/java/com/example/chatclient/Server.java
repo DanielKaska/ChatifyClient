@@ -1,48 +1,26 @@
 package com.example.chatclient;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Server {
     Socket clientSocket;
     BufferedReader reader;
     PrintWriter out;
 
-    static List<String> messages = new ArrayList<String>();
+    private String nick;
 
-    @FXML
-    Label chatLabel;
-    @FXML
-    private TextField chatTextField;
+    public List<String> messages = new ArrayList<String>();
 
-    int i = 0;
-
-    public void initialize(){
-        //dokonczyc to gowno
+    public Server(String nick){
+        this.nick = nick;
+        Connect();
+        System.out.println(nick);
     }
-
-    public void OnMessageSent(){
-        var message = chatTextField.getText();
-        System.out.println(chatLabel);
-        Controller.server.SendMessage(message);
-    }
-
-    void WriteMessage(String message){
-        var text = chatLabel.getText();
-        chatLabel.setText(message);
-    }
-
 
     public void Connect(){
         try{
@@ -51,12 +29,17 @@ public class Server {
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             ReadMessages();
+
+            out.println(nick);
+
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
-
+    public void SendMessage(String message){
+        out.println(message);
+    }
 
     void ReadMessages(){
         Thread t = new Thread(() -> {
@@ -64,20 +47,20 @@ public class Server {
                 try{
                     var response = reader.readLine();
                     if(!response.equals("")){
-                        messages.add(response);
+                        System.out.println(response);
+                        Data.GetInstance().AddMessage(response);
                     }
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }
 
             }
+
+
         });
 
         t.start();
     }
 
-    void SendMessage(String message){
-        out.println(message);
-    }
 
 }
