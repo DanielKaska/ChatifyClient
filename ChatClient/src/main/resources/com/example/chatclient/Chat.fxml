@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="pane" onScroll="#OnScroll" prefHeight="525.0" prefWidth="549.0" style="-fx-background-color: #001A1A;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatclient.ChatController">
+   <children>
+      <TextField fx:id="chatTextField" layoutX="11.0" layoutY="479.0" onAction="#OnEnterPressed" prefHeight="36.0" prefWidth="527.0" promptText="Chat" style="-fx-background-color: #002B2B; -fx-border-color: #ffc745; -fx-border-radius: 15; -fx-text-fill: #ffc745; -fx-background-radius: 15;" />
+   </children>
+</AnchorPane>
